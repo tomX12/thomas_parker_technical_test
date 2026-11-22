@@ -45,7 +45,6 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         run: npm run test
-      # Upload the report even when tests fail; that is when it is most useful
       - name: Upload HTML report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v5
