@@ -9,26 +9,18 @@ export class BaseMethods {
     readonly monthInputBox: Locator;
     readonly yearInputBox: Locator;
     readonly errorMsg: Locator;
-    readonly link: string;
-    readonly answer: Locator;
-    readonly skipToContentBanner: Locator;
+    readonly skipToContentLink: Locator;
 
     constructor(public readonly page: Page) {
-        this.inputBox = page.locator('//input[@id="response"]');
-        this.pageHeading = page.locator('h1');
-        this.continueBtn = page.getByRole('button', { name: 'continue' });
-        this.dayInputBox = page.locator('//input[@id="response-0"]');
-        this.monthInputBox = page.locator('//input[@id="response-1"]');
-        this.yearInputBox = page.locator('//input[@id="response-2"]');
-        this.errorMsg = page.locator("//div[@id='error-summary']//a");
-        this.link = "//a[contains(text(), '{var}')]";
-        this.answer = page.locator("//dd[@class='govuk-summary-list__value']");
-        this.skipToContentBanner = page.locator("//a[@data-module='govuk-skip-link']");
-    }
-
-    dynamicWebElement(locator: string, testToReplaceVar: string): Locator {
-        const newLocator = locator.replace('{var}', testToReplaceVar);
-        return this.page.locator(newLocator);
+        this.inputBox = page.getByRole('textbox');
+        this.pageHeading = page.getByRole('heading', { level: 1 });
+        this.continueBtn = page.getByRole('button', { name: 'Continue' });
+        this.dayInputBox = page.getByRole('textbox', { name: 'Day', exact: true });
+        this.monthInputBox = page.getByRole('textbox', { name: 'Month', exact: true });
+        this.yearInputBox = page.getByRole('textbox', { name: 'Year', exact: true });
+        // GOV.UK error summary is rendered inside role="alert"; each error is a link to the invalid field
+        this.errorMsg = page.getByRole('alert').getByRole('link');
+        this.skipToContentLink = page.getByRole('link', { name: 'Skip to main content' });
     }
 
     async goToBaseUrl() {
@@ -49,12 +41,30 @@ export class BaseMethods {
     }
 
     async clickLink(linkText: string) {
-        const linkLocator: Locator = this.dynamicWebElement(this.link, linkText);
-        await linkLocator.click();
+        await this.page.getByRole('link', { name: linkText }).click();
+    }
+
+    /**
+     * Returns the answer cell from the "Your answers" summary list for a given question.
+     */
+    answerFor(question: string): Locator {
+        return this.page
+            .locator('.govuk-summary-list__row')
+            .filter({ has: this.page.getByRole('term').filter({ hasText: question }) })
+            .getByRole('definition')
+            .first();
+    }
+
+    /**
+     * Clicks the "Change" link for a given question. The link's accessible name includes
+     * visually hidden text ("Change <question>"), so this targets the exact row.
+     */
+    async changeAnswer(question: string) {
+        await this.page.getByRole('link', { name: `Change ${question}` }).click();
     }
 
     async selectRadioBtn(radioBtnTitle: string) {
-        await this.page.getByRole('radio', { name: radioBtnTitle }).click();
+        await this.page.getByRole('radio', { name: radioBtnTitle, exact: true }).check();
     }
 
     async typeIntoInput(inputValue: string) {
@@ -75,7 +85,7 @@ export class BaseMethods {
     }
 
     async inputDate(date: string) {
-        //split date string by / to get individual strings
+        // Date is expected in DD/MM/YYYY format
         const [day, month, year] = date.split('/');
 
         await this.dayInputBox.fill(day);
@@ -90,12 +100,18 @@ export class BaseMethods {
         await expect(this.errorMsg).toHaveText(error);
     }
 
+    /**
+     * Presses a keyboard key. Uses Playwright key names, e.g. 'Tab', 'Enter', 'ArrowDown'.
+     */
     async pressKey(key: string) {
-        const keyUpper = key.charAt(0).toUpperCase();
-        await this.page.keyboard.press(keyUpper);
+        await this.page.keyboard.press(key);
     }
 
     async elementIsVisible(locator: Locator) {
         await expect(locator).toBeVisible();
+    }
+
+    async elementIsFocused(locator: Locator) {
+        await expect(locator).toBeFocused();
     }
 }

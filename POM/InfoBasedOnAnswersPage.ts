@@ -6,7 +6,8 @@ export class InfoBasedOnAnswersPage extends BaseMethods {
     };
 
     private Locators = {
-        SummaryText: this.page.locator("//div[@class='summary']/p"),
+        // The result summary has no semantic role, so it is located by its GOV.UK class
+        SummaryText: this.page.locator('.summary'),
     };
 
     async assertSummaryText(expectedText: string) {
