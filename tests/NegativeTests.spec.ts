@@ -24,9 +24,7 @@ test.describe('Negative tests to check error handling', () => {
         await baseMethods.goToPageViaUrl(baseURL!, PATHS[pageHeading]);
         await baseMethods.assertPageHeadingText(pageHeading);
 
-        await numDaysWorkedPerWeekPage.InputDaysWorked('8');
-        await baseMethods.clickContinue();
-
+        await numDaysWorkedPerWeekPage.inputDaysWorked('8');
         await baseMethods.clickContinue();
 
         await baseMethods.assertErrorMessageVisible(

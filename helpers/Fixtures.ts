@@ -24,10 +24,8 @@ export const test = base.extend<CustomFixtures>({
         const baseMethods = new BaseMethods(page);
         await use(baseMethods);
     },
-    // Playwright requires the fixture argument to be destructured, even when empty.
-    // eslint-disable-next-line no-empty-pattern
-    regularOrIrregularHoursPage: async ({}, use) => {
-        const regularOrIrregularHours = new RegularOrIrregularHoursPage();
+    regularOrIrregularHoursPage: async ({ page }, use) => {
+        const regularOrIrregularHours = new RegularOrIrregularHoursPage(page);
         await use(regularOrIrregularHours);
     },
     holidayEntitlementBasisPage: async ({ page }, use) => {

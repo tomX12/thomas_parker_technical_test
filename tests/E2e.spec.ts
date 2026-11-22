@@ -15,12 +15,11 @@ test.describe('End to end tests', () => {
         infoBasedOnAnswersPage,
     }) => {
         // Does not work irregular hours
-        await baseMethods.assertPageHeadingText(regularOrIrregularHoursPage.PageText.PageHeading);
-        await baseMethods.selectRadioBtn('No');
+        await regularOrIrregularHoursPage.selectWorksIrregularHours('No');
         await baseMethods.clickContinue();
 
         // Holiday entitlement is based on days worked per week
-        await holidayEntitlementBasisPage.SelectEntitlementBasis('days worked per week');
+        await holidayEntitlementBasisPage.selectEntitlementBasis('days worked per week');
         await baseMethods.clickContinue();
 
         // For a full leave year
@@ -28,7 +27,7 @@ test.describe('End to end tests', () => {
         await baseMethods.clickContinue();
 
         // Works 5 days per week
-        await numDaysWorkedPerWeekPage.InputDaysWorked('5');
+        await numDaysWorkedPerWeekPage.inputDaysWorked('5');
         await baseMethods.clickContinue();
 
         // Details submitted for calculation
@@ -46,8 +45,7 @@ test.describe('End to end tests', () => {
         infoBasedOnAnswersPage,
     }) => {
         // Works irregular hours
-        await baseMethods.assertPageHeadingText(regularOrIrregularHoursPage.PageText.PageHeading);
-        await baseMethods.selectRadioBtn('Yes');
+        await regularOrIrregularHoursPage.selectWorksIrregularHours('Yes');
         await baseMethods.clickContinue();
 
         // Leave year starts on 22/05/2022
@@ -56,7 +54,7 @@ test.describe('End to end tests', () => {
         await baseMethods.clickContinue();
 
         // Holiday entitlement is based on shifts
-        await holidayEntitlementBasisPage.SelectEntitlementBasis('shifts');
+        await holidayEntitlementBasisPage.selectEntitlementBasis('shifts');
         await baseMethods.clickContinue();
 
         // For someone starting and leaving part way through a leave year

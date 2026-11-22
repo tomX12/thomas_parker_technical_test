@@ -33,6 +33,8 @@ export default defineConfig([
                         'assertSummaryText',
                         'assertErrorMessageVisible',
                         'elementIsVisible',
+                        'elementIsFocused',
+                        'selectWorksIrregularHours',
                     ],
                 },
             ],

@@ -5,7 +5,7 @@ export class HolidayEntitlementBasisPage extends BaseMethods {
         PageHeading: 'Is the holiday entitlement based on:',
     } as const;
 
-    async SelectEntitlementBasis(option: string) {
+    async selectEntitlementBasis(option: string) {
         await this.assertPageHeadingText(this.PageText.PageHeading);
         await this.selectRadioBtn(option);
     }

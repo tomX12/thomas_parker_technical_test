@@ -12,20 +12,25 @@ test.describe('Navigation tests', () => {
         await baseMethods.assertPageHeadingText('Calculate holiday entitlement');
     });
 
-    test('User can change an answer', async ({ baseMethods, holidayEntitlementBasisPage }) => {
+    test('User can change an answer', async ({
+        baseMethods,
+        regularOrIrregularHoursPage,
+        holidayEntitlementBasisPage,
+    }) => {
+        const question = regularOrIrregularHoursPage.PageText.PageHeading;
+
         // Answer a question
         await baseMethods.clickBtn('Start now');
-        await baseMethods.assertPageHeadingText('Does the employee work irregular hours or for part of the year?');
-        await baseMethods.selectRadioBtn('No');
+        await regularOrIrregularHoursPage.selectWorksIrregularHours('No');
         await baseMethods.clickContinue();
         await baseMethods.assertPageHeadingText(holidayEntitlementBasisPage.PageText.PageHeading);
 
         // Change the answer
-        await baseMethods.assertTextContains(baseMethods.answer, 'No');
-        await baseMethods.clickLink('Change');
-        await baseMethods.selectRadioBtn('Yes');
+        await baseMethods.assertTextContains(baseMethods.answerFor(question), 'No');
+        await baseMethods.changeAnswer(question);
+        await regularOrIrregularHoursPage.selectWorksIrregularHours('Yes');
         await baseMethods.clickContinue();
 
-        await baseMethods.assertTextContains(baseMethods.answer, 'Yes');
+        await baseMethods.assertTextContains(baseMethods.answerFor(question), 'Yes');
     });
 });

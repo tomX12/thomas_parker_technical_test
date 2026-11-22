@@ -5,7 +5,7 @@ export class NumDaysWorkedPerWeekPage extends BaseMethods {
         PageHeading: 'Number of days worked per week?',
     };
 
-    async InputDaysWorked(daysWorked: string) {
+    async inputDaysWorked(daysWorked: string) {
         await this.assertPageHeadingText(this.PageText.PageHeading);
         await this.typeIntoInput(daysWorked);
     }

@@ -1,9 +1,10 @@
 import { test } from '../helpers/Fixtures';
 
 test.describe('Accessibility tests', () => {
-    test('Skip to content header is visible when the tab button is used', async ({ baseMethods }) => {
-        await baseMethods.pressKey('tab');
+    test('Skip to content link receives focus and is visible when the Tab key is pressed', async ({ baseMethods }) => {
+        await baseMethods.pressKey('Tab');
 
-        await baseMethods.elementIsVisible(baseMethods.skipToContentBanner);
+        await baseMethods.elementIsFocused(baseMethods.skipToContentLink);
+        await baseMethods.elementIsVisible(baseMethods.skipToContentLink);
     });
 });
