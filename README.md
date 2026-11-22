@@ -11,18 +11,12 @@ This repository contains an automated test suite using [Playwright](https://play
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/tomX12/thomas_parker_technical_task.git
-   cd your-repo-name
+   cd thomas_parker_technical_task
    ```
-   or if downloaing ZIP of repo:
-   ```bash
-   Extract into folder of choice
-   cd folder-of-choice
-
-   ```
+   Or, if downloading a ZIP of the repo, extract it into a folder of your choice and `cd` into that folder.
 2. **Install Dependencies**
    ```bash
    npm install
-
    ```
 3. **Install Playwright Browsers**
    ```bash
