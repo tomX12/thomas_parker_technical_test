@@ -6,7 +6,6 @@ export class InfoBasedOnAnswersPage extends BaseMethods {
     };
 
     private Locators = {
-        // The result summary has no semantic role, so it is located by its GOV.UK class
         SummaryText: this.page.locator('.summary'),
     };
 

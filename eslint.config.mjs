@@ -35,6 +35,7 @@ export default defineConfig([
                         'elementIsVisible',
                         'elementIsFocused',
                         'selectWorksIrregularHours',
+                        'assertNoAccessibilityViolations',
                     ],
                 },
             ],

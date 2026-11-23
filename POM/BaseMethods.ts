@@ -1,5 +1,8 @@
 import type { Locator, Page } from '@playwright/test';
-import { expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
 export class BaseMethods {
     readonly inputBox: Locator;
@@ -55,10 +58,6 @@ export class BaseMethods {
             .first();
     }
 
-    /**
-     * Clicks the "Change" link for a given question. The link's accessible name includes
-     * visually hidden text ("Change <question>"), so this targets the exact row.
-     */
     async changeAnswer(question: string) {
         await this.page.getByRole('link', { name: `Change ${question}` }).click();
     }
@@ -113,5 +112,21 @@ export class BaseMethods {
 
     async elementIsFocused(locator: Locator) {
         await expect(locator).toBeFocused();
+    }
+
+    async assertNoAccessibilityViolations() {
+        const pageName = (await this.pageHeading.innerText()).trim();
+        const results = await new AxeBuilder({ page: this.page }).withTags(WCAG_TAGS).analyze();
+
+        const violations = results.violations.map(
+            (v) => `[${v.impact}] ${v.id}: ${v.help} (${v.nodes.length} element(s)) - ${v.helpUrl}`,
+        );
+        // Full axe output (failing HTML, selectors, fix suggestions) for debugging
+        await test.info().attach(`axe details - ${pageName}`, {
+            body: JSON.stringify(results.violations, null, 2),
+            contentType: 'application/json',
+        });
+
+        expect(violations, `Accessibility violations on "${pageName}"`).toEqual([]);
     }
 }

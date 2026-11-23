@@ -4,6 +4,9 @@
   "scripts": {
     "test": "npx playwright test",
     "test-ui": "npx playwright test --ui",
+    "test-a11y": "npx playwright test --grep @a11y",
+    "test-e2e": "npx playwright test --grep @e2e",
+    "test-negative": "npx playwright test --grep @negative",
     "report": "npx playwright show-report",
     "lint": "eslint .",
     "format": "prettier --write .",
@@ -19,6 +22,7 @@
   "license": "ISC",
   "description": "Playwright automation suite for Gov.UK holiday calculator",
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@eslint/js": "^9.29.0",
     "@playwright/test": "^1.65.1",
     "@types/node": "^24.19.2",

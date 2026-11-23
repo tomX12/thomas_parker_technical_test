@@ -1,7 +1,7 @@
 import { test } from '../helpers/Fixtures';
 import { PATHS } from '../helpers/Paths';
 
-test.describe('Negative tests to check error handling', () => {
+test.describe('Negative tests to check error handling', { tag: '@negative' }, () => {
     test('Error displays when the user tries to continue without selecting a radio btn', async ({
         baseMethods,
         baseURL,

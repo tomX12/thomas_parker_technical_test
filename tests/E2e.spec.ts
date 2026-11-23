@@ -1,40 +1,49 @@
 import { test } from '../helpers/Fixtures';
 
-test.describe('End to end tests', () => {
+test.describe('End to end tests', { tag: '@e2e' }, () => {
     test.beforeEach(async ({ baseMethods }) => {
         // Start a new calculation
         await baseMethods.clickBtn('Start now');
     });
 
-    test('Regular nine to five work pattern for a full year is entitled to 28 days holiday', async ({
-        baseMethods,
-        regularOrIrregularHoursPage,
-        holidayEntitlementBasisPage,
-        doYouWantToWorkOutHolidayPage,
-        numDaysWorkedPerWeekPage,
-        infoBasedOnAnswersPage,
-    }) => {
-        // Does not work irregular hours
-        await regularOrIrregularHoursPage.selectWorksIrregularHours('No');
-        await baseMethods.clickContinue();
+    test(
+        'Regular nine to five work pattern for a full year is entitled to 28 days holiday',
+        { tag: '@a11y' },
+        async ({
+            baseMethods,
+            regularOrIrregularHoursPage,
+            holidayEntitlementBasisPage,
+            doYouWantToWorkOutHolidayPage,
+            numDaysWorkedPerWeekPage,
+            infoBasedOnAnswersPage,
+        }) => {
+            // Does not work irregular hours
+            await regularOrIrregularHoursPage.selectWorksIrregularHours('No');
+            await baseMethods.assertNoAccessibilityViolations();
+            await baseMethods.clickContinue();
 
-        // Holiday entitlement is based on days worked per week
-        await holidayEntitlementBasisPage.selectEntitlementBasis('days worked per week');
-        await baseMethods.clickContinue();
+            // Holiday entitlement is based on days worked per week
+            await holidayEntitlementBasisPage.selectEntitlementBasis('days worked per week');
+            await baseMethods.assertNoAccessibilityViolations();
+            await baseMethods.clickContinue();
 
-        // For a full leave year
-        await doYouWantToWorkOutHolidayPage.selectWhatHolidayIsFor('for a full leave year');
-        await baseMethods.clickContinue();
+            // For a full leave year
+            await doYouWantToWorkOutHolidayPage.selectWhatHolidayIsFor('for a full leave year');
+            await baseMethods.assertNoAccessibilityViolations();
+            await baseMethods.clickContinue();
 
-        // Works 5 days per week
-        await numDaysWorkedPerWeekPage.inputDaysWorked('5');
-        await baseMethods.clickContinue();
+            // Works 5 days per week
+            await numDaysWorkedPerWeekPage.inputDaysWorked('5');
+            await baseMethods.assertNoAccessibilityViolations();
+            await baseMethods.clickContinue();
 
-        // Details submitted for calculation
-        await baseMethods.assertPageHeadingContainsText(infoBasedOnAnswersPage.PageText.PageHeading);
+            // Details submitted for calculation
+            await baseMethods.assertPageHeadingContainsText(infoBasedOnAnswersPage.PageText.PageHeading);
+            await baseMethods.assertNoAccessibilityViolations();
 
-        await infoBasedOnAnswersPage.assertSummaryText('28 days');
-    });
+            await infoBasedOnAnswersPage.assertSummaryText('28 days');
+        },
+    );
 
     test('Irregular shift worker for 6 months working 8 hours per shift in a 10 shift cycle', async ({
         baseMethods,

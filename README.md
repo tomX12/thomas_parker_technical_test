@@ -31,6 +31,14 @@ This repository contains an automated test suite using [Playwright](https://play
 npm run test
 ```
 
+### Run Accessibility Tests Only
+
+Runs every test tagged `@a11y` (keyboard accessibility checks and the axe-core WCAG 2.2 A/AA scans).
+
+```bash
+npm run test-a11y
+```
+
 ### Run Tests using Playwright UI
 
 ```bash
