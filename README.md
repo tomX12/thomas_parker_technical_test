@@ -51,6 +51,12 @@ npm run test-ui
 npm run report
 ```
 
+## Thoughts on further improvements
+
+- Data driven testing to allow the testing of many flows with minimal code duplication
+- Publish HTML report to a static site (Github pages) to remove the need to download the report each time
+- Set up pre-commit check for linting and prettier to prevent unformatted code being committed
+
 ## Accessibility Task
 
 ### Defects found on test page
@@ -66,11 +72,6 @@ npm run report
 | Your message input has no corresponding label | 1.3.1 Info and Relationships, 3.3.2 Labels or Instructions | A         |
 | Image has missing alt text                    | 1.1.1 Non-text Content                                     | A         |
 | Focus box not visible while tabbing           | 2.4.7 Focus Visible                                        | AA        |
-
-## Thoughts on further improvements
-
-- Data driven testing to allow the testing of many flows with minimal code duplication
-- Publish HTML report to a static site (Github pages) to remove the need to download the report each time
 
 ## Bug report
 
